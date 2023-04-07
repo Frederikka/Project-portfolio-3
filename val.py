@@ -156,4 +156,10 @@ def main():
             print(f'You won, {name}! Congratulations, you live to fight another day. The word was "{answer}".')
         input('Press any key to try again! ')
         clear()
-         
+    
+# Code for "if" condition to run "if" statement when game is being played
+if __name__ == "__main__":
+    main()
+
+
+   
