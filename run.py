@@ -1,86 +1,104 @@
 import os
 import random
 
-# Function to clear the terminal
+
 def clear():
+    """
+    Function to clear the terminal
+    """
+
     os.system(('cls' if os.name == 'nt' else 'clear'))
 
-# Function for the intro screen and instructions
-def intro_screen(): 
+
+def intro_screen():
+    """
+    Function for the intro screen and instructions
+    """
+
     print("Welcome to 'Voyage for Valhalla'\n")
     print("""
-              |    |    |                Voyage for Valhalla is a word game.
-             )_)  )_)  )_)               If a letter you guess is in the chosen
-            )___))___))___)\             random word, it will show.
-           )____)____)_____)\\            If a guessed letter is not in the
-         _____|____|____|____\\\__        chosen word, you will lose a life.
----------\                   /---------  You have 5 lives to guess before the
-  ^^^^^ ^^^^^^^^^^^^^^^^^^^^^            boat sinks and you lose the game.
-    ^^^^      ^^^^     ^^^    ^^    
-         ^^^^      ^^^                   Good luck!
+              |    |    |                   Voyage for Valhalla is a word game.
+             )_)  )_)  )_)                  If a letter you guess is in the
+            )___))___))___)                 random word, it will show.
+           )____)____)_____)                If a guessed letter is not in the
+         _____|____|____|______             chosen word, you will lose a life.
+-------- |                   /---------     You have 5 lives to guess before
+                                            the boat sinks and you lose!
+     ^^^^^ ^^^^^^^^^^^^^^^^^^^^^
+  ^^^^      ^^^^     ^^^    ^
+  ^^^^      ^^^         ^                   Good luck!
     """)
     print("---------------------------------------")
-    name = input("Enter your name here to begin play: ")
+    name = ''
+    name = input("Enter your name here to begin play: ").strip()
+    while name == '':
+        print('No, you need to enter a name not an empty space, thanks.')
+        name = input("Enter your name here to begin play: ").strip()
+    return name
     clear()
-    return name  
 
-# Function to display the boat's stages in the game
-def print_boat_stages(lives):    
+
+def print_boat_stages(lives):
+    """
+    Function to display the boat's stages in the game
+    """
     if (lives == 5):
         print("""
-              |    |    |                 
-             )_)  )_)  )_)              
-            )___))___))___)\            
-           )____)____)_____)\\
- --------_____|____|____|____\\\__-----
----------\                   /---------
+              |    |    |
+             )_)  )_)  )_)
+            )___))___))___)
+           )____)____)_____)
+ --------_____|____|____|______-----
+---------|                   /---------
+  ^^^^^ ^^^^^^^^^^^^^^^^^^^^^
+    ^^^^      ^^^^     ^^^    ^^
+         ^^^^      ^^^
+
+            """)
+    elif (lives == 4):
+        print("""
+              |    |    |
+             )_)  )_)  )_)
+            )___))___))___)
+           )____)____)_____)
+ --------_____|____|____|_____-----
   ^^^^^ ^^^^^^^^^^^^^^^^^^^^^
     ^^^^      ^^^^     ^^^    ^^
          ^^^^      ^^^
             """)
-    elif (lives == 4):
-        print("""                         
-              |    |    |                 
-             )_)  )_)  )_)              
-            )___))___))___)\            
-           )____)____)_____)\\
- --------_____|____|____|____\\\__-----
-  ^^^^^ ^^^^^^^^^^^^^^^^^^^^^
-    ^^^^      ^^^^     ^^^    ^^
-         ^^^^      ^^^
-            """)               
     elif (lives == 3):
         print("""
-              |    |    |                 
-             )_)  )_)  )_)              
-            )___))___))___)\            
-           )____)____)_____)\\
+              |    |    |
+             )_)  )_)  )_)
+            )___))___))___)
+           )____)____)_____)
   ^^^^^ ^^^^^^^^^^^^^^^^^^^^^
     ^^^^      ^^^^     ^^^    ^^
          ^^^^      ^^^
 
-            """)      
+            """)
     elif (lives == 2):
         print("""
-              |    |    |                 
-             )_)  )_)  )_)              
-            )___))___))___)\            
-  ^^^^^ ^^^^^^^^^^^^^^^^^^^^^
-    ^^^^      ^^^^     ^^^    ^^
-         ^^^^      ^^^      
-          
-            """)              
-    elif (lives == 1):
-        print("""
-              |    |    |                 
-             )_)  )_)  )_)              
-  ^^^^^ ^^^^^^^^^^^^^^^^^^^^^
+              |    |    |
+             )_)  )_)  )_)
+            )___))___))___)
+    ^^^^^ ^^^^^^^^^^^^^^^^^^^^^
     ^^^^      ^^^^     ^^^    ^^
          ^^^^      ^^^
-            """)         
+         """)
+    elif (lives == 1):
+        print("""
+              |    |    |
+             )_)  )_)  )_)
+    ^^^^^ ^^^^^^^^^^^^^^^^^^^^^
+    ^^^^      ^^^^     ^^^    ^^
+         ^^^^      ^^^
+            """)
 
-# Function to return word from words list
+
 def get_words():
+    """Function to return word from words list
+    """
     return [
         'delightful',
         'sound',
@@ -102,11 +120,15 @@ def get_words():
         'bag',
         'jealous',
         'prevent'
-    ]   
+    ]
 
-# Function for main functions with while loop for answer options
+
 def main():
+    """
+    Function for main functions with while loop for answer options
+    """
     name = intro_screen()
+    clear()
     while True:
         guessed_letters = []
         lives = 5
@@ -123,9 +145,9 @@ def main():
             clear()
             if len(user_guess) == 1 and user_guess.isalpha():
                 if user_guess in guessed_letters:
-                    print(f'You already guessed the letter "{user_guess.upper()}". Please try again! ')
+                    print(f'You already guessed the letter "{user_guess()}"')
                 elif user_guess not in answer:
-                    print(f'"{user_guess.upper()}" is not in the word! Please try again!')
+                    print(f'"{user_guess.upper()}" is not in the word!')
                     lives -= 1
                     guessed_letters.append(user_guess)
                 else:
@@ -150,16 +172,16 @@ def main():
   ^^^^^ ^^^^^^^^^^^^^^^^^^^^^
     ^^^^      ^^^^     ^^^    ^^
          ^^^^      ^^^
-            """) 
+            """)
             print(f'You died, {name}. Oh dear.. The word was "{answer}".')
         else:
-            print(f'You won, {name}! Congratulations, you live to fight another day. The word was "{answer}".')
+            print(f'You won, {name}! Well done! The word was "{answer}".')
         input('Press any key to try again! ')
         clear()
-    
+
+
 # Code for "if" condition to run "if" statement when game is being played
+
+
 if __name__ == "__main__":
     main()
-
-
-   
