@@ -30,12 +30,27 @@ def intro_screen():
     """)
     print("---------------------------------------")
     name = ''
-    name = input("Enter your name here to begin play: ").strip()
-    while name == '':
-        print('No, you need to enter a name not an empty space, thanks.')
+    name_is_valid = False
+    while not name_is_valid:
         name = input("Enter your name here to begin play: ").strip()
-    return name
+        if validate_name(name):
+            name_is_valid = True
+        else:
+            print('Please enter a valid name (Letters or spaces only).')
     clear()
+    return name
+
+
+def validate_name(name):
+    """
+    Function to determine if name is valid
+    """
+    if name == '':
+        return False
+    for letter in name:
+        if not (letter.isalpha() or letter.isspace()):
+            return False
+    return True
 
 
 def print_boat_stages(lives):
@@ -145,13 +160,13 @@ def main():
             clear()
             if len(user_guess) == 1 and user_guess.isalpha():
                 if user_guess in guessed_letters:
-                    print(f'You already guessed the letter "{user_guess()}"')
+                    print(f'You already guessed the letter "{user_guess}"')
                 elif user_guess not in answer:
-                    print(f'"{user_guess.upper()}" is not in the word!')
+                    print(f'"{user_guess}" is not in the word!')
                     lives -= 1
                     guessed_letters.append(user_guess)
                 else:
-                    print(f'"{user_guess.upper()}" is in the word, well done!')
+                    print(f'"{user_guess}" is in the word, well done!')
                     guessed_letters.append(user_guess)
                     for index in range(0, len(answer)):
                         if answer[index] == user_guess:
@@ -160,7 +175,7 @@ def main():
                         guessed = True
             elif len(user_guess) == len(answer) and user_guess.isalpha():
                 if user_guess != answer:
-                    print(f'"{user_guess.upper()}" is not in the word')
+                    print(f'"{user_guess}" is not in the word')
                     lives -= 1
                 else:
                     guessed = True
