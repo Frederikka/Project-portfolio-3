@@ -36,7 +36,7 @@ def intro_screen():
         if validate_name(name):
             name_is_valid = True
         else:
-            print('Please enter a valid name (Letters or spaces only).')
+            print('Please enter a valid name (Letters only, thank you!).')
     clear()
     return name
 
